@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | FREESTYLE</title>
+    <link rel="stylesheet" href="style5.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <h2 class="logo">FREESTYLE</h2>
+        <div class="links">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <!-- Signup Form -->
+    <div class="login-container"><br>
+        <h2 style="text-align:center ;">Create an Account</h2>
+
+        <form id="signupForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p id="error" style="color:red;"></p>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById("signupForm");
+        const errorText = document.getElementById("error");
+
+        signupForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+            // Check passwords
+            if (password !== confirmPassword) {
+                errorText.textContent = "Passwords do not match!";
+                return;
+            }
+
+            // Save account
+            localStorage.setItem("username", username);
+            localStorage.setItem("password", password);
+
+            // AUTO LOGIN
+            localStorage.setItem("loggedIn", "true");
+
+            // Redirect immediately
+            window.location.href = "home.html";
+        });
+    </script>
+
+</body>
+</html>

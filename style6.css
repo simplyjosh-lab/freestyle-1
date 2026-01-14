@@ -1,0 +1,144 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== BODY ===== */
+body {
+    background: linear-gradient(135deg, #050f2c, #0b2b5f);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: #030b1f;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4da3ff;
+}
+
+.links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.links a:hover {
+    color: #4da3ff;
+}
+
+/* ===== CHECKOUT BOX ===== */
+#checkout {
+    max-width: 700px;
+    margin: 60px auto;
+    background: #061736;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+}
+
+#checkout h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #4da3ff;
+}
+
+/* ===== CART ===== */
+.cart p {
+    text-align: center;
+    opacity: 0.8;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0a2454;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+
+.cart-item p {
+    font-size: 16px;
+}
+
+/* ===== REMOVE BUTTON ===== */
+.cart-item button {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cart-item button:hover {
+    background: #e63939;
+}
+
+/* ===== TOTAL ===== */
+#checkout h2 {
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* ===== PAY BUTTON ===== */
+#payButton {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #4da3ff;
+    color: #05122e;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#payButton:hover {
+    background: #1f7ae0;
+}
+
+#payButton:disabled {
+    background: #2b4a75;
+    cursor: not-allowed;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 15px;
+    background: #030b1f;
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #checkout {
+        margin: 30px 15px;
+        padding: 20px;
+    }
+}

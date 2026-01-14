@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout | FREESTYLE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style6.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h2 class="logo">FREESTYLE</h2>
+        <div class="links">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- CHECKOUT -->
+    <section id="checkout">
+        <h1>Checkout</h1>
+
+        <div id="cart" class="cart"></div>
+
+        <h2>Total: $<span id="total">0.00</span></h2>
+
+        <button id="payButton">pay here!</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>© 2026 FREESTYLE</footer>
+
+    <!-- SCRIPT -->
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const cartContainer = document.getElementById("cart");
+        const totalEl = document.getElementById("total");
+        const payButton = document.getElementById("payButton");
+
+        function renderCart() {
+            cartContainer.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                payButton.disabled = true;
+                totalEl.textContent = "0.00";
+                return;
+            }
+
+            payButton.disabled = false;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+
+                const div = document.createElement("div");
+                div.className = "cart-item";
+                div.innerHTML = `
+                    <p>${item.name} - $${item.price.toFixed(2)}</p>
+                    <button onclick="removeItem(${index})">Remove</button>
+                `;
+                cartContainer.appendChild(div);
+            });
+
+            totalEl.textContent = total.toFixed(2);
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+        }
+
+        payButton.addEventListener("click", () => {
+            if (cart.length === 0) return;
+            window.location.href = "pay.html";
+        });
+
+        renderCart();
+    </script>
+
+</body>
+</html>

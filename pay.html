@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment | FREESTYLE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="pay.css">
+
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- PayPal -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h2 class="logo">FREESTYLE</h2>
+        <div class="links">
+            <a href="home.html">Home</a>
+            <a href="checkout.html">Checkout</a>
+        </div>
+    </nav>
+
+    <!-- PAYMENT BOX -->
+    <section class="payment-box">
+        <h1>Complete Your Payment</h1>
+
+        <!-- CART SUMMARY -->
+        <div id="summary"></div>
+        <h2>Total: $<span id="total">0.00</span></h2>
+
+        <!-- PAYMENT OPTIONS -->
+        <div class="payment-methods">
+            <button id="stripePay">Pay with Card (Visa/MasterCard)</button>
+            <div id="paypal-button-container"></div>
+            <button id="momoPay">Pay with Momo</button>
+        </div>
+
+        <p class="note">All payments are secure. Choose your preferred method.</p>
+    </section>
+
+    <footer>© 2026 FREESTYLE</footer>
+
+    <script>
+        // ===== LOAD CART =====
+        const stripe = Stripe("pk_test_YOUR_STRIPE_PUBLIC_KEY");
+        const summary = document.getElementById("summary");
+        const totalEl = document.getElementById("total");
+        const stripePay = document.getElementById("stripePay");
+        const momoPay = document.getElementById("momoPay");
+
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let total = 0;
+
+        cart.forEach(item => {
+            total += item.price;
+            const p = document.createElement("p");
+            p.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            summary.appendChild(p);
+        });
+
+        totalEl.textContent = total.toFixed(2);
+
+        // ===== STRIPE PAYMENT =====
+        stripePay.addEventListener("click", async () => {
+            try {
+                const response = await fetch("http://localhost:4242/create-checkout-session", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart })
+                });
+                const session = await response.json();
+                stripe.redirectToCheckout({ sessionId: session.id });
+            } catch (error) {
+                alert("Stripe payment failed. Please try again.");
+                console.error(error);
+            }
+        });
+
+        // ===== PAYPAL PAYMENT =====
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color:  'blue',
+                shape:  'rect',
+                label:  'paypal'
+            },
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: total.toFixed(2) }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert("Transaction completed by " + details.payer.name.given_name);
+                    localStorage.removeItem("cart"); // clear cart after payment
+                    window.location.href = "success.html";
+                });
+            },
+            onError: function(err) {
+                alert("PayPal payment failed.");
+                console.error(err);
+            }
+        }).render('#paypal-button-container');
+
+        // ===== MOMO PAYMENT (SIMULATION) =====
+        momoPay.addEventListener("click", () => {
+            const momoNumber = prompt("Enter your Momo number to pay $" + total.toFixed(2));
+            if (momoNumber) {
+                alert("Payment of $" + total.toFixed(2) + " from " + momoNumber + " successful!");
+                localStorage.removeItem("cart");
+                window.location.href = "success.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

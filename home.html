@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FREESTYLE</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <h2 class="logo">FREESTYLE</h2>
+        <div class="links">
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h1>Our Freestyles</h1>     
+
+        <div class="products">
+            <div class="product-card" onclick="handleBuy('Freestyle 1', 25)">
+                <img src="https://i.pinimg.com/736x/5a/8d/65/5a8d655ffbed9a4a73828a88d12eb370.jpg" alt="Freestyle 1">
+                <h3>Freestyle 1</h3>
+                <p>$25.00</p>
+            </div>
+
+            <div class="product-card" onclick="handleBuy('Freestyle 2', 30)">
+                <img src="https://i.pinimg.com/474x/65/73/33/657333048ba995d8843e4517ed71b903.jpg" alt="Freestyle 2">
+                <h3>Freestyle 2</h3>
+                <p>$30.00</p>
+            </div>
+
+            <div class="product-card" onclick="handleBuy('Freestyle 3', 40)">
+                <img src="https://i.pinimg.com/474x/4a/65/b4/4a65b4215cc10a9091920cc4baa3d831.jpg" alt="Freestyle 3">
+                <h3>Freestyle 3</h3>
+                <p>$40.00</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Freestyle
+    </footer>
+
+    <!-- ✅ BUY / CHECKOUT LOGIC -->
+    <script>
+        function handleBuy(name, price) {
+            // Check if user is logged in
+            if (localStorage.getItem("loggedIn") !== "true") {
+                // Not logged in → go to sign up page
+                alert("You must be logged in to buy a freestyle.");
+                window.location.href = "sign up.html";
+            } else {
+                // Logged in → add product to cart
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                // Add the product
+                cart.push({ name: name, price: price });
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                // Go to checkout
+                window.location.href = "checkout.html";
+            }
+        }
+    </script>
+
+</body>
+</html>

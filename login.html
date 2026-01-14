@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | FREESTYLE</title>
+    <link rel="stylesheet" href="style5.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <h2 class="logo">FREESTYLE</h2>
+        <div class="links">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <h1>Login</h1>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get input values
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            // Get saved account
+            const savedUsername = localStorage.getItem("username");
+            const savedPassword = localStorage.getItem("password");
+
+            // Check if account exists
+            if (!savedUsername || !savedPassword) {
+                alert("No account found. Please sign up first.");
+                return;
+            }
+
+            // Validate login
+            if (username === savedUsername && password === savedPassword) {
+                localStorage.setItem("loggedIn", "true");
+                alert("Login successful!");
+                window.location.href = "home.html";
+            } else {
+                alert("Wrong username or password!");
+            }
+        });
+    </script>
+
+</body>
+</html>
